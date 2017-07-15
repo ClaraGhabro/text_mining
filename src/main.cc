@@ -1,28 +1,28 @@
 #include <iostream>
 
 #include "options/opt_parser.hh"
+#include "trie/trie.hh"
 
 int main(int argc, char* argv[]) {
-  std::cout << "hello, the build system seems to work." << std::endl;
-  std::cout << "meme si le makefile a la racine semble ne servir a rien, laissez le, ca evite d'aller le chercher dans le dossier build." << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << "oui, c'est la flemme qui parle" << std::endl;
+  const std::pair<std::string, std::string> option = options::parse_option(argc, argv);
 
-  const std::string* option = options::parse_option(argc, argv);
-
-  if (*option == "")
+  if (option.first == "" && option.second == "")
     return -1;
 
-  if (!(*option).compare("help") || !(*option).compare("version"))
+  if (!option.first.compare("help") || !option.first.compare("version"))
     // exit if help or version is asked
     return 0;
 
-  if (!(*option).compare("dico"))
-    std::cout << "dico" << std::endl;
+  if (option.second.compare(""))
+    std::cout << "frequency: " << option.second << std::endl;
 
-  if ((option[1]).compare("freq"))
-    std::cout << "freq" << std::endl;
+  std::cout << "dico: " << option.first << std::endl;
+
+
+  Node node1{};
+  node1.insert_word("test", 0);
+  node1.insert_word("testons", 0);
+
 
 
   return 0;

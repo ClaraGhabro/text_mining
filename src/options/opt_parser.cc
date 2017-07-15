@@ -7,9 +7,9 @@
 
 
 
-namespace options 
+namespace options
 {
-  const std::string* parse_option(int argc, char* argv[])
+std::pair<std::string, std::string> parse_option(int argc, char* argv[])
   {
     namespace opt = boost::program_options;
 
@@ -30,8 +30,7 @@ namespace options
     if (vmap.count("help"))
     {
       std::cout << description << std::endl;
-      const std::string* help = new std::string("help");
-      return help;
+      return std::make_pair("help", "");
     }
 
     if (vmap.count("version"))
@@ -39,26 +38,21 @@ namespace options
       std::cout << "text_mining VERSION: "
                 << TEXT_MINING_VERSION
                 << std::endl;
-      const std::string* version = new std::string("version");
-      return version;
+      return std::make_pair("version", "");
     }
 
     if (vmap.count("dico"))
     {
-      const std::string* path_to_dico = new std::string(vmap["dico"].as<std::string>());
-
       if (vmap.count("frequency"))
       {
-        const std::string* path_to_frequency = new std::string(vmap["frequency"].as<std::string>());
-        const std::string dico_freq[] = { *path_to_dico, *path_to_frequency};
-        return dico_freq;
+        return std::make_pair(vmap["dico"].as<std::string>(), vmap["frequency"].as<std::string>());
       }
       else
-        return path_to_dico;
+        return std::make_pair(vmap["dico"].as<std::string>(), "");
     }
 
   std::cout << description << std::endl;
-  return NULL;
+  return std::make_pair("", "");
   }
 
 }

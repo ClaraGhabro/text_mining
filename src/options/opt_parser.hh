@@ -1,8 +1,9 @@
 #pragma once
 
 #include <boost/program_options.hpp>
+#include <utility>
 
-namespace options 
+namespace options
 {
-  const std::string* parse_option(int args, char* argv[]);
+std::pair<std::string, std::string> parse_option(int args, char* argv[]);
 }

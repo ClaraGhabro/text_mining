@@ -2,3 +2,6 @@
   -> à completer : generer les deux fichiers de configuration
 
 parsing d'option: voir comment faire proprement dans le cas ou il y a 2 options passées en argument (pour le moment, ca segfault)
+
+
+massif memory profiler -> pour controler les 512M de RAM
