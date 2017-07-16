@@ -1,17 +1,16 @@
 BUILD_DIR=build
-HTML_DIR=html
-LATEX_DIR=latex
+OUT_DIR=out
 
 all:
 	+make -C $(BUILD_DIR)
 
 doc:
+	mkdir -p out
 	+make -C $(BUILD_DIR) $@
 
 distclean:
-	$(RM) text_mining
 	$(RM) $(DIRS) $(BUILD_DIR)
-	$(RM) $(HTML_DIR) $(LATEX_DIR)
+	$(RM) $(OUT_DIR)
 
 %:
 	+make -C $(BUILD_DIR) $@

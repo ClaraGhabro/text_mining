@@ -23,6 +23,11 @@ void Node::insert_word(const std::string& word, unsigned index)
   
 }
 
+/**
+ * \brief Display all words in the trie.
+ *
+ * \param str is empty at the first call, accumulate the letters of the word then
+ */
 void Node::print_trie(const std::string& str)
 {
   for (std::size_t i = 0; i < children.size(); ++i)

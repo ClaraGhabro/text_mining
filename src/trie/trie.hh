@@ -8,6 +8,14 @@ class Node
 {
 public:
   Node();
+
+  /**
+   * \brief Insert a word in the trie. If the word is already in the list, or
+   * existsts as a subword, don't do anything.
+   *
+   * \param word the word to insert
+   * \param index how many letters are already inserted in the trie
+   */
   void insert_word(const std::string& word, unsigned index = 0);
   void print_trie(const std::string& str);
 
