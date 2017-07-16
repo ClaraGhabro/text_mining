@@ -21,11 +21,20 @@ std::pair<std::string, std::string> parse_option(int argc, char* argv[])
     add("frequency,f", opt::value<std::string>(), "Specify the file of words + frequencies");
     add("dico,d", opt::value<std::string>(), "Specify the compiled dictionnary to use");
 
-    const auto parse_result = opt::parse_command_line(argc, argv, description);
 
     opt::variables_map vmap{};
-    opt::store(parse_result, vmap);
-    opt::notify(vmap);
+
+    try
+    {
+      const auto parse_result = opt::parse_command_line(argc, argv, description);
+      opt::store(parse_result, vmap);
+      opt::notify(vmap);
+    }
+    catch (const boost::exception& e)
+    {
+      std::cerr << description << std::endl;
+      return std::make_pair("", "");
+    }
 
     if (vmap.count("help"))
     {
