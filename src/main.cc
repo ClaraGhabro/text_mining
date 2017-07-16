@@ -21,7 +21,9 @@ int main(int argc, char* argv[]) {
 
   Node node1{};
   node1.insert_word("test", 0);
+  node1.insert_word("hello");
   node1.insert_word("testons", 0);
+  node1.print_trie("");
 
 
 

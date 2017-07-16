@@ -9,6 +9,7 @@ class Node
 public:
   Node();
   void insert_word(const std::string& word, unsigned index = 0);
+  void print_trie(const std::string& str);
 
 private:
   static constexpr std::size_t kalphabet_size = 128;
