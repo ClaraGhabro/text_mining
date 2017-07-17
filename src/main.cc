@@ -19,10 +19,12 @@ int main(int argc, char* argv[]) {
   std::cout << "dico: " << option.first << std::endl;
 
 
-  Node node1{};
+  trie::Node node1{};
   node1.insert_word("test", 0);
   node1.insert_word("hello");
   node1.insert_word("testons", 0);
+  node1.insert_word("hel");
+  node1.insert_word("hek");
   node1.print_trie("");
 
 
