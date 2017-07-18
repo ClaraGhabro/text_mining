@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
     return 0;
 
   if (option.second.compare(""))
-    std::cout << "frequency: " << option.second << std::endl;
+    std::cerr << "frequency: " << option.second << std::endl;
 
-  std::cout << "dico: " << option.first << std::endl;
+  std::cerr << "dico: " << option.first << std::endl;
 
 
   trie::Node node1{};

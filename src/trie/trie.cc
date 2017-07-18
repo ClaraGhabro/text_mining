@@ -34,7 +34,7 @@ void Node::print_trie(const std::string& str)
   }
 
   if (is_word_end)
-    std::cout << str << '\n';
+    std::cerr << str << '\n';
 }
 
 }
