@@ -10,4 +10,4 @@
 
 `make doc` génère la documentaion dans le dossier out
 #### NB:
-meme si le makefile a la racine semble ne servir a rien, laissez le, ca evite d'aller le chercher dans le dossier build.
+même si le makefile à la racine semble ne servir à rien, laissez le, ça evite d'aller le chercher dans le dossier build.
