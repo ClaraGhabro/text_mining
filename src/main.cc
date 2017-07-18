@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include "options/opt_parser.hh"
 #include "trie/trie.hh"
@@ -13,20 +15,40 @@ int main(int argc, char* argv[]) {
     // exit if help or version is asked
     return 0;
 
-  if (option.second.compare(""))
-    std::cerr << "frequency: " << option.second << std::endl;
+
+  // Dans le cas de TextMiningCompiler, on a forcement la frequence donnée en argument
+  //if (option.second.compare(""))
+  std::cerr << "frequency: " << option.second << std::endl;
 
   std::cerr << "dico: " << option.first << std::endl;
 
 
   trie::Node node1{};
-  node1.insert_word("test", 0);
-  node1.insert_word("hello");
-  node1.insert_word("testons", 0);
-  node1.insert_word("hel");
-  node1.insert_word("hek");
+  node1.insert_word("test", 2);
+  node1.insert_word("hello", 3);
+  node1.insert_word("testons", 1);
+  node1.insert_word("hel", 4);
+  node1.insert_word("hek", 5);
   node1.print_trie("");
 
+  std::ifstream ifstream(option.second);
+
+  std::string word;
+  std::string freq;
+
+  trie::Node node2{};
+  int i = 0;
+  while (ifstream >> word >> freq)
+  {
+    std::cerr << "word: " << word << ", freq: " << freq << '\n';
+    i++;
+    if (i == 100)
+      break;
+
+    node2.insert_word(word, std::stoi(freq));
+  }
+
+  node2.print_trie("");
 
 
   return 0;

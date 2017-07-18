@@ -27,7 +27,7 @@ public:
    * \param word the word to insert
    * \param index how many letters are already inserted in the trie, 0 if not specified
    */
-  void insert_word(const std::string& word, unsigned index = 0);
+  void insert_word(const std::string& word, int frequence, unsigned index = 0);
 
   /**
    * \brief Display all words in the trie.
@@ -39,6 +39,7 @@ public:
 private:
   static constexpr std::size_t kalphabet_size = 128; /*!< Size of the alphabet */
   std::array<std::unique_ptr<Node>, kalphabet_size> children; /*!< a value is false if the character is not containend in the trie, point to a node is the characher is in the trie*/
-  bool is_word_end; /*!< True if the node represente the end of a word, false othewise */
+  //bool is_word_end; /*!< True if the node represente the end of a word, false othewise */
+  int word_frequence = 0;
 };
 }
