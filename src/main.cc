@@ -42,6 +42,7 @@ int main(int argc, char* argv[]) {
   {
     std::cerr << "word: " << word << ", freq: " << freq << '\n';
     i++;
+    //TODO : enlever ce test pour mettre le mot complet
     if (i == 100)
       break;
 
