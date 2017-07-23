@@ -1,28 +1,42 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
 
-#include "options/opt_parser.hh"
 #include "trie/trie.hh"
 
+
+
+void write(const std::string& file_name, const trie::Node& node)
+{
+  std::ofstream out;
+  out.open(file_name, std::ios::binary);
+  out.write(reinterpret_cast<const char*>(&node), sizeof(trie::Node));
+  out.close();
+}
+
+void read(const std::string& file_name, trie::Node& node)
+{
+  std::ifstream in;
+  in.open(file_name, std::ios::binary);
+  in.read(reinterpret_cast<char*>(&node), sizeof (trie::Node));
+  in.close();
+}
+
+
+
+/**
+ * \brief TextMiningCompiler main
+ * has to be run with path_to_word.txt name_of_new_compiled_dico.bin
+ * */
 int main(int argc, char* argv[]) {
-  const std::pair<std::string, std::string> option = options::parse_option(argc, argv);
-
-  if (option.first == "" && option.second == "")
+  if (argc != 3)
+  {
+    fprintf(stderr, "\nError: Not enough argument, run with:\n./TextMiningCompiler path_word.txt path_compiled_dico.bin\n\n");
     return -1;
+  }
 
-  if (!option.first.compare("help") || !option.first.compare("version"))
-    // exit if help or version is asked
-    return 0;
-
-
-  // Dans le cas de TextMiningCompiler, on a forcement la frequence donnée en argument
-  //if (option.second.compare(""))
-  std::cerr << "frequency: " << option.second << std::endl;
-
-  std::cerr << "dico: " << option.first << std::endl;
-
-
+/*
   trie::Node node1{};
   node1.insert_word("test", 2);
   node1.insert_word("hello", 3);
@@ -30,26 +44,34 @@ int main(int argc, char* argv[]) {
   node1.insert_word("hel", 4);
   node1.insert_word("hek", 5);
   node1.print_trie("");
+*/
 
-  std::ifstream ifstream(option.second);
+  std::ifstream ifstream(argv[1]);
 
   std::string word;
   std::string freq;
 
   trie::Node node2{};
-  int i = 0;
+
+  std::string first_letter = "";
+
   while (ifstream >> word >> freq)
   {
-    std::cerr << "word: " << word << ", freq: " << freq << '\n';
-    i++;
-    //TODO : enlever ce test pour mettre le mot complet
-    if (i == 100)
-      break;
+ //    if (word[0] == first_letter[0])
+      node2.insert_word(word, std::stoi(freq));
+     // else
+     // {
+    //   first_letter = word[0];
+      // TODO: remise a zero du trie
+       //node2 = trie::Node{};
+    }
+  //}
+  //read(argv[2], node2);
+ // node2.print_trie();
+       write(argv[2], node2);
+  std::cerr << "word: " << word << ", freq: " << freq << '\n';
 
-    node2.insert_word(word, std::stoi(freq));
-  }
-
-  node2.print_trie("");
+  //node2.print_trie("");
 
 
   return 0;

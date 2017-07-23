@@ -5,7 +5,7 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 BUILDDIR="$SCRIPTPATH/build"
 
 # Define build mode
-if [ $1 = "DEBUG" ]; then
+if [ "$1" = "DEBUG" ]; then
   MODE=DEBUG
 else
   MODE=RELEASE
