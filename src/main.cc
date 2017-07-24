@@ -64,34 +64,50 @@ int main(int argc, char* argv[]) {
   // {
     // node2.insert_word(word, std::stoi(freq));
   // }
+  // std::ofstream out;
+  // out.open(argv[2], std::ios::app);
+  // node2.write_node(out);
+  // first_letter = word[0];
+  // out.close();
 
- // node2.print_trie("");
+  // node2.print_trie("");
+ 
+  int diff = 0;
 
   while (ifstream >> word >> freq)
   {
-    if (word[0] == first_letter[0])
+    if (diff < 40)
+    {
+      if (word[0] != first_letter[0])
+      {
+        first_letter [0] = word[0];
+        diff++;
+      }
+      // std::cerr << "diff: " << diff << '\n';
       node2.insert_word(word, std::stoi(freq));
+    }
     else
     {
+      // std::cerr << "diff: " << diff << '\n';
       std::ofstream out;
       out.open(argv[2], std::ios::app);
       node2.write_node(out);
       first_letter = word[0];
       out.close();
-      //TODO: remise a zero du trie
       node2 = trie::Node{};
+      diff = 0;
     }
   }
+  std::ofstream out;
+  out.open(argv[2], std::ios::app);
+  node2.write_node(out);
+  first_letter = word[0];
+  out.close();
   // read(argv[2], node2);
  // node2.print_trie();
  std::cerr << "word: " << word << ", freq: " << freq << '\n';
 
 
-  // std::ofstream out;
-  // out.open(argv[2], std::ios::app);
-  // node2.write_node(out);
-  // first_letter = word[0];
-      // out.close();
 
 
 
