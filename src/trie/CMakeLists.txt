@@ -1,4 +1,6 @@
 set(SRC_TRIE
-  trie.cc)
+  nodes.cc
+  node.cc)
+
 
 add_library(trie_objs OBJECT ${SRC_TRIE})

@@ -11,10 +11,11 @@ include_directories(
 # Get objects libraries from sources
 #add_subdirectoru(sous_dossier)
 add_subdirectory(trie)
+add_subdirectory(compiler)
 
 # Create the executable with project name
 add_executable(${PROJECT_NAME}
-  main.cc
   #  $<TARGET_OBJECTS:sous_dossier_objs>
   $<TARGET_OBJECTS:trie_objs>
+  $<TARGET_OBJECTS:compiler_objs>
   )
