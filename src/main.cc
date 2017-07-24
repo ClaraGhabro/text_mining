@@ -39,9 +39,10 @@ int main(int argc, char* argv[]) {
     fprintf(stderr, "\nError: Not enough argument, run with:\n./TextMiningCompiler path_word.txt path_compiled_dico.bin\n\n");
     return -1;
   }
-
+  
 /*
   trie::Node node1{};
+  node1.insert_word("tastons", 1);
   node1.insert_word("test", 2);
   node1.insert_word("hello", 3);
   node1.insert_word("testons", 1);
@@ -49,7 +50,6 @@ int main(int argc, char* argv[]) {
   node1.insert_word("hek", 5);
   node1.print_trie("");
 */
-
   std::ifstream ifstream(argv[1]);
 
   std::string word;
@@ -58,6 +58,14 @@ int main(int argc, char* argv[]) {
   trie::Node node2{};
 
   std::string first_letter = "";
+
+
+  // while (ifstream >> word >> freq)
+  // {
+    // node2.insert_word(word, std::stoi(freq));
+  // }
+
+ // node2.print_trie("");
 
   while (ifstream >> word >> freq)
   {
@@ -74,9 +82,18 @@ int main(int argc, char* argv[]) {
       node2 = trie::Node{};
     }
   }
-  //read(argv[2], node2);
+  // read(argv[2], node2);
  // node2.print_trie();
-  std::cerr << "word: " << word << ", freq: " << freq << '\n';
+ std::cerr << "word: " << word << ", freq: " << freq << '\n';
+
+
+  // std::ofstream out;
+  // out.open(argv[2], std::ios::app);
+  // node2.write_node(out);
+  // first_letter = word[0];
+      // out.close();
+
+
 
   //node2.print_trie("");
 

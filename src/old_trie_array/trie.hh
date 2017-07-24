@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include <cstdint>
 #include <memory>
 
@@ -39,14 +39,10 @@ public:
   //
   void write_node(std::ofstream& stream);
 
-  /**
-   * \brief Sort the child in aphabetic order
-   */
-  void sort_node();
-  
-
 private:
-  std::vector<std::pair<char, std::unique_ptr<Node>>> children; /*!< a value is false if the character is not containend in the trie, point to a node is the characher is in the trie >*/
+  static constexpr std::size_t begin = 33;
+  static constexpr std::size_t kalphabet_size = 90; /*!< Size of the alphabet >*/
+  std::array<std::unique_ptr<Node>, kalphabet_size> children; /*!< a value is false if the character is not containend in the trie, point to a node is the characher is in the trie >*/
   int word_frequence = 0; /*!< zero if the node is not the end of a word, != 0 if the node represent the end of a word >*/
 
 };
