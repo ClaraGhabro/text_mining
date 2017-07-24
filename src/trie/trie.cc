@@ -1,6 +1,7 @@
 #include "trie.hh"
 
 #include <iostream>
+#include <fstream>
 
 namespace trie
 {
@@ -37,5 +38,23 @@ void Node::print_trie(const std::string& str)
   if (word_frequence)
     std::cerr << str << '\n';
 }
+
+// std::array<std::unique_ptr<Node>, std::size_t> get_children()
+// {
+  // return this.children;
+// }
+
+void Node::write_node(std::ofstream& out_stream)
+{
+  out_stream.write(reinterpret_cast<const char*>(this), sizeof (trie::Node));
+  for (std::size_t i = 0; i < children.size(); ++i)
+  {
+    if (children[i] != nullptr)
+      children[i]->write_node(out_stream);
+  }
+}
+
+
+
 
 }

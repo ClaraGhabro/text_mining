@@ -7,13 +7,17 @@
 
 
 
-void write(const std::string& file_name, const trie::Node& node)
-{
-  std::ofstream out;
-  out.open(file_name, std::ios::binary);
-  out.write(reinterpret_cast<const char*>(&node), sizeof(trie::Node));
-  out.close();
-}
+// void write_node(const std::string& file_name, const trie::Node& node)
+// {
+  // std::ofstream out;
+  // out.open(file_name, std::ios::binary);
+  // for (size_t i = 0; i < node.get_children.size(); ++i)
+  // {
+   //
+    // out.write(reinterpret_cast<const char*>(&node), sizeof(trie::Node));
+  // }
+  // out.close();
+// }
 
 void read(const std::string& file_name, trie::Node& node)
 {
@@ -57,18 +61,21 @@ int main(int argc, char* argv[]) {
 
   while (ifstream >> word >> freq)
   {
- //    if (word[0] == first_letter[0])
+    if (word[0] == first_letter[0])
       node2.insert_word(word, std::stoi(freq));
-     // else
-     // {
-    //   first_letter = word[0];
-      // TODO: remise a zero du trie
-       //node2 = trie::Node{};
+    else
+    {
+      std::ofstream out;
+      out.open(argv[2], std::ios::app);
+      node2.write_node(out);
+      first_letter = word[0];
+      out.close();
+      //TODO: remise a zero du trie
+      node2 = trie::Node{};
     }
-  //}
+  }
   //read(argv[2], node2);
  // node2.print_trie();
-       write(argv[2], node2);
   std::cerr << "word: " << word << ", freq: " << freq << '\n';
 
   //node2.print_trie("");
