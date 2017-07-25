@@ -39,4 +39,15 @@ void serialize_nodes(const char* file)
     node_ptr->write_node(out);
   out.close();
 }
+
+void deserialize_nodes(const char* file)
+{
+  std::ifstream in;
+  in.open(file, std::ios::app | std::ios::binary);
+  auto node = get_node(add_node());
+  node->read_node(in);
+  in.close();
+
+}
+
 }

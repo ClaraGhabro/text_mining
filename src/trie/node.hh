@@ -43,16 +43,16 @@ public:
    */
   void dump(const std::string& str = "");
 
+  void write_node(std::ofstream& out_stream) const;
+  void read_node(std::ifstream& in_stream) const;
+
+private:
   /**
    * \brief Sort the child in aphabetic order
    */
-
-  void write_node(std::ofstream& out_stream) const;
-
-    private : void sort_node();
+  void sort_node();
 
   std::vector<std::pair<char, std::size_t>> children{};
-  int word_frequence =
-    0; /*!< zero if the node is not the end of a word, != 0 otherwise >*/
+  unsigned int word_frequence = 0; /*!< zero if the node is not the end of a word, != 0 otherwise >*/
 };
 } // namespace trie

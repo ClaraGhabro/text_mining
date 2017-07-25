@@ -80,6 +80,39 @@ void Node::write_node(std::ofstream& out_stream) const
   }
 }
 
+void Node::read_node(std::ifstream& in_stream) const
+{
+  unsigned int word_freq = 0;
+  std::uint8_t children_size = 0;
+  char letter = 'c';
+  std::size_t index = 0;
+  while (in_stream)
+  {
+    in_stream.read(reinterpret_cast<char*>(&word_freq), sizeof (unsigned int));
+    std::cerr << "word freq: " << word_freq << std::endl;
+    in_stream.read(reinterpret_cast<char*>(&children_size), sizeof (std::uint8_t));
+    std::cerr << "chilldren_size: " << reinterpret_cast<std::uint8_t>(children_size) << std::endl;
+    for (std::size_t i = 0; i < children_size; ++i)
+    {
+      in_stream.read(reinterpret_cast<char*>(&letter), sizeof (char));
+      std::cerr << "letter: " << letter<< std::endl;
+      in_stream.read(reinterpret_cast<char*>(&index), sizeof (std::size_t));
+      std::cerr << "index: " << index << std::endl;
+    }
+  }
+  
+  in_stream.read(reinterpret_cast<char*>(&word_freq), sizeof (unsigned int));
+  std::cerr << "word freq: " << word_freq << std::endl;
+  in_stream.read(reinterpret_cast<char*>(&children_size), sizeof (std::uint8_t));
+  std::cerr << "chilldren_size: " << children_size << std::endl;
+  in_stream.read(reinterpret_cast<char*>(&letter), sizeof (char));
+  std::cerr << "letter: " << letter<< std::endl;
+  in_stream.read(reinterpret_cast<char*>(&index), sizeof (std::size_t));
+  std::cerr << "index: " << index << std::endl;
+
+}
+
+
 void Node::sort_node()
 {
   // std::sort(children.begin(), children.end(),
