@@ -70,14 +70,13 @@ void Node::write_node(std::ofstream& out_stream) const
   /* FIXME:
    * write each elements one by one. Don't forget to specify the size
    * finaly, write frequency */
-  auto temp = children.size();
+  std::uint8_t temp = static_cast<std::uint8_t>(children.size());
   out_stream.write(reinterpret_cast<const char*>(&word_frequence), sizeof(word_frequence));
   out_stream.write(reinterpret_cast<const char*>(&temp), sizeof(temp));
   for (const auto& pair : children)
   {
     out_stream.put(pair.first);
     out_stream.write(reinterpret_cast<const char*>(&pair.second), sizeof(pair.second));
-    get_node(pair.second)->write_node(out_stream);
   }
 }
 
