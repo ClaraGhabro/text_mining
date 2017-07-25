@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
   node1->insert_word("hek", 5);
   node1->dump();
 */
+  std::cout << "Size structure: " << sizeof (trie::Node) << std::endl;
 
   std::ifstream ifstream(argv[1]);
   std::string word;

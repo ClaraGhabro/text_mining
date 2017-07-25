@@ -1,7 +1,7 @@
 # Set compilation flags
 set(CMAKE_CXX_FLAGS "-std=c++14 -Wall -Wextra -Weffc++ -pedantic -DTEXT_MININGVERSION=${TEXT_MINING__VERSION}")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -Werror")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 
 # Include directories for compilation (-I)
 include_directories(

@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
   }
 
   auto node3 = trie::deserialize_nodes(argv[1]);
-  node3->dump();
+  // node3->dump();
+  std::cerr << "size: " << sizeof (node3) << std::endl;
 
   return 0;
 }

@@ -21,7 +21,7 @@ std::size_t add_node()
   auto& nodes = nodes_get();
   nodes.emplace_back(std::make_unique<Node>());
   if (nodes.empty())
-    nodes.reserve(8000000);
+    nodes.reserve(3000000);
 
   return nodes.size();
 }
@@ -57,20 +57,21 @@ Node* deserialize_nodes(const char* file)
   while (in_stream)
   {
     std::size_t node_index = add_node();
+    in_stream.read(reinterpret_cast<char*>(&word_freq), sizeof (unsigned int));
+    // std::cerr << "word freq: " << word_freq << std::endl;
     in_stream.read(reinterpret_cast<char*>(&children_size), sizeof (std::uint8_t));
     // std::cerr << "chilldren_size: " << static_cast<int>(children_size) << std::endl;
 
     auto current_node = get_node(node_index);
+    current_node->set_frequence(word_freq);
 
     for (std::size_t i = 0; i < children_size; ++i)
     {
-      in_stream.read(reinterpret_cast<char*>(&letter), 8);
+      in_stream.read(reinterpret_cast<char*>(&letter), sizeof (char));
       // std::cerr << "letter: " << letter<< std::endl;
-      in_stream.read(reinterpret_cast<char*>(&word_freq), 24);
-      // std::cerr << "word freq: " << word_freq << std::endl;
-      in_stream.read(reinterpret_cast<char*>(&index), 32);
+      in_stream.read(reinterpret_cast<char*>(&index), sizeof (std::size_t));
       // std::cerr << "index: " << index << std::endl;
-      current_node->add_children(letter, index, word_freq);
+      current_node->add_children(letter, index);
     }
   }
 

@@ -46,8 +46,8 @@ public:
   void write_node(std::ofstream& out_stream) const;
   void read_node(std::ifstream& in_stream) const;
 
-  void set_frequence(unsigned int freq, const char letter);
-  void add_children(char letter, std::uint32_t index, std::uint32_t freq = 0);
+  void set_frequence(unsigned int freq);
+  void add_children(char letter, std::size_t index);
 
 private:
   /**
@@ -55,13 +55,7 @@ private:
    */
   void sort_node();
 
-  struct element
-  {
-    char letter : 8;
-    std::uint32_t word_frequence : 24;
-    std::uint32_t son_idx : 32;
-  };
-
-  std::vector<element> children{};
+  std::uint32_t word_frequence = 0u; /*!< zero if the node is not the end of a word, != 0 otherwise >*/
+  std::vector<std::pair<char, std::uint32_t>> children{};
 };
 } // namespace trie
