@@ -118,8 +118,8 @@ void Node::add_children(char letter, std::size_t index)
 
 void Node::sort_node()
 {
-  // std::sort(children.begin(), children.end(),
-  // [](const auto& pair1, const auto& pair2)
-  // { return pair1.first < pair2.first; });
+  std::sort(children.begin(), children.end(),
+  [](const auto& pair1, const auto& pair2)
+  { return pair1.first < pair2.first; });
 }
 }

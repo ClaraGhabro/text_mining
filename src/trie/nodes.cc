@@ -43,15 +43,13 @@ void serialize_nodes(const char* file)
 std::shared_ptr<Node> deserialize_nodes(const char* file)
 {
   std::ifstream in_stream;
-  in_stream.open(file, std::ios::app | std::ios::binary);
-  // auto node = get_node(add_node());
-
-
+  in_stream.open(file, std::ios::binary);
 
   unsigned int word_freq = 0;
   std::uint8_t children_size = 0;
   char letter = '\0';
   std::size_t index = 0;
+
   while (in_stream)
   {
     std::size_t node_index = add_node();

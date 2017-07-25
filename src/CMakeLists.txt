@@ -12,16 +12,17 @@ include_directories(
 #add_subdirectoru(sous_dossier)
 add_subdirectory(trie)
 add_subdirectory(compiler)
+add_subdirectory(app)
 
 # Create the executable with project name
-add_executable(${PROJECT_NAME}
+add_executable(TextMiningCompiler
   #  $<TARGET_OBJECTS:sous_dossier_objs>
   $<TARGET_OBJECTS:trie_objs>
   $<TARGET_OBJECTS:compiler_objs>
   )
 
-# add_executable(TextMiningApp
-  # $<TARGET_OBJECTS:trie_objs>
-  # $<TARGET_OBJECTS:app_objs>
-  # )
+add_executable(TextMiningApp
+  $<TARGET_OBJECTS:trie_objs>
+  $<TARGET_OBJECTS:app_objs>
+  )
 
