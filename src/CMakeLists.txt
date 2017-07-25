@@ -19,3 +19,9 @@ add_executable(${PROJECT_NAME}
   $<TARGET_OBJECTS:trie_objs>
   $<TARGET_OBJECTS:compiler_objs>
   )
+
+# add_executable(TextMiningApp
+  # $<TARGET_OBJECTS:trie_objs>
+  # $<TARGET_OBJECTS:app_objs>
+  # )
+

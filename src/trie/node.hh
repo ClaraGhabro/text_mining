@@ -46,6 +46,9 @@ public:
   void write_node(std::ofstream& out_stream) const;
   void read_node(std::ifstream& in_stream) const;
 
+  void set_frequence(unsigned int freq);
+  void add_children(char letter, std::size_t index);
+
 private:
   /**
    * \brief Sort the child in aphabetic order

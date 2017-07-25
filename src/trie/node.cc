@@ -67,9 +67,6 @@ void Node::dump(const std::string& str)
 
 void Node::write_node(std::ofstream& out_stream) const
 {
-  /* FIXME:
-   * write each elements one by one. Don't forget to specify the size
-   * finaly, write frequency */
   std::uint8_t temp = static_cast<std::uint8_t>(children.size());
   out_stream.write(reinterpret_cast<const char*>(&word_frequence), sizeof(word_frequence));
   out_stream.write(reinterpret_cast<const char*>(&temp), sizeof(temp));
@@ -84,34 +81,40 @@ void Node::read_node(std::ifstream& in_stream) const
 {
   unsigned int word_freq = 0;
   std::uint8_t children_size = 0;
-  char letter = 'c';
+  char letter = '\0';
   std::size_t index = 0;
   while (in_stream)
   {
+    std::size_t node_index = add_node();
     in_stream.read(reinterpret_cast<char*>(&word_freq), sizeof (unsigned int));
-    std::cerr << "word freq: " << word_freq << std::endl;
+    // std::cerr << "word freq: " << word_freq << std::endl;
     in_stream.read(reinterpret_cast<char*>(&children_size), sizeof (std::uint8_t));
-    std::cerr << "chilldren_size: " << reinterpret_cast<std::uint8_t>(children_size) << std::endl;
+    // std::cerr << "chilldren_size: " << static_cast<int>(children_size) << std::endl;
+
+    auto current_node = get_node(node_index);
+    current_node->word_frequence = word_freq;
+
     for (std::size_t i = 0; i < children_size; ++i)
     {
       in_stream.read(reinterpret_cast<char*>(&letter), sizeof (char));
-      std::cerr << "letter: " << letter<< std::endl;
+      // std::cerr << "letter: " << letter<< std::endl;
       in_stream.read(reinterpret_cast<char*>(&index), sizeof (std::size_t));
-      std::cerr << "index: " << index << std::endl;
+      // std::cerr << "index: " << index << std::endl;
+      current_node->children.emplace_back(std::make_pair(letter, index));
     }
   }
-  
-  in_stream.read(reinterpret_cast<char*>(&word_freq), sizeof (unsigned int));
-  std::cerr << "word freq: " << word_freq << std::endl;
-  in_stream.read(reinterpret_cast<char*>(&children_size), sizeof (std::uint8_t));
-  std::cerr << "chilldren_size: " << children_size << std::endl;
-  in_stream.read(reinterpret_cast<char*>(&letter), sizeof (char));
-  std::cerr << "letter: " << letter<< std::endl;
-  in_stream.read(reinterpret_cast<char*>(&index), sizeof (std::size_t));
-  std::cerr << "index: " << index << std::endl;
-
 }
 
+
+void Node::set_frequence(unsigned int freq)
+{
+  word_frequence = freq;
+}
+
+void Node::add_children(char letter, std::size_t index)
+{
+  children.emplace_back(std::make_pair(letter, index));
+}
 
 void Node::sort_node()
 {

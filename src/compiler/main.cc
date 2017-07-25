@@ -56,19 +56,20 @@ int main(int argc, char* argv[]) {
   std::string word;
   std::string freq;
 
- // trie::serialize_nodes(argv[2]);
   auto node2 = trie::get_node(trie::add_node());
 
-  // while (ifstream >> word >> freq)
-  // {
-    // node2->insert_word(word, std::stoi(freq));
-  // }
-//
-  // trie::serialize_nodes(argv[2]);
+  while (ifstream >> word >> freq)
+  {
+    node2->insert_word(word, std::stoi(freq));
+  }
+
+  trie::serialize_nodes(argv[2]);
 
   // node2.dump("");
 
-  trie::deserialize_nodes(argv[2]);
+  // auto node3 = trie::deserialize_nodes(argv[2]);
+  // auto node3 = trie::get_node(1);
+  // node3->dump();
  
   // int diff = 0;
 //
