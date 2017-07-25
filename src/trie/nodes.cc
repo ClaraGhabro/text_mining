@@ -49,10 +49,8 @@ Node* deserialize_nodes(const char* file)
   std::ifstream in_stream;
   in_stream.open(file, std::ios::binary);
 
-  unsigned int word_freq = 0;
   std::uint8_t children_size = 0;
-  char letter = '\0';
-  std::size_t index = 0;
+  trie::Node::element elt ;
 
   while (in_stream)
   {
@@ -64,13 +62,9 @@ Node* deserialize_nodes(const char* file)
 
     for (std::size_t i = 0; i < children_size; ++i)
     {
-      in_stream.read(reinterpret_cast<char*>(&letter), 8);
+      in_stream.read(reinterpret_cast<char*>(&elt), sizeof (elt));
       // std::cerr << "letter: " << letter<< std::endl;
-      in_stream.read(reinterpret_cast<char*>(&word_freq), 24);
-      // std::cerr << "word freq: " << word_freq << std::endl;
-      in_stream.read(reinterpret_cast<char*>(&index), 32);
-      // std::cerr << "index: " << index << std::endl;
-      current_node->add_children(letter, index, word_freq);
+      current_node->add_children(elt);
     }
   }
 

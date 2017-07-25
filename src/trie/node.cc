@@ -98,6 +98,13 @@ void Node::set_frequence(unsigned int freq, const char letter)
     }
 }
 
+void Node::add_children(struct element elt)
+{
+  children.emplace_back(elt);
+  if (children.capacity() > children.size() + 2)
+    children.shrink_to_fit();
+}
+
 void Node::add_children(char letter, std::uint32_t index, std::uint32_t freq)
 {
   children.emplace_back(element{ letter, freq, index });

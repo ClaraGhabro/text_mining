@@ -23,6 +23,12 @@ public:
   Node& operator=(const Node&) = delete;
   Node& operator=(Node&&) noexcept = default;
 
+  struct element
+  {
+    char letter : 8;
+    std::uint32_t word_frequence : 24;
+    std::uint32_t son_idx : 32;
+  };
   /**
    * \brief Insert a word in the trie. If the word is already in the list, or
    * existsts as a subword, don't do anything.
@@ -48,6 +54,7 @@ public:
 
   void set_frequence(unsigned int freq, const char letter);
   void add_children(char letter, std::uint32_t index, std::uint32_t freq = 0);
+  void add_children(struct element elt);
 
 private:
   /**
@@ -55,12 +62,6 @@ private:
    */
   void sort_node();
 
-  struct element
-  {
-    char letter : 8;
-    std::uint32_t word_frequence : 24;
-    std::uint32_t son_idx : 32;
-  };
 
   std::vector<element> children{};
 };
