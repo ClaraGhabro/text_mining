@@ -7,8 +7,20 @@
 
 namespace trie
 {
+/**
+ * \namespace anonymous
+ *
+ * \brief Restrict the access of the vector containing all the nodes. Avoid mistaken copy
+ */
 namespace
 {
+
+/**
+ * \fn nodes_get
+ *
+ * \brief Create a vector of node at the first call, and return this vector
+ * containing all the nodes at each call. The vector is a kind of singleton.
+ */
 auto& nodes_get()
 {
   static std::vector<Node> nodes{};
