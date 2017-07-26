@@ -62,7 +62,6 @@ private:
    */
   void sort_node();
 
-
   std::vector<element> children{};
 };
 } // namespace trie

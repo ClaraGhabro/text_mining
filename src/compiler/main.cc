@@ -34,11 +34,11 @@ int main(int argc, char* argv[]) {
   std::string word;
   std::string freq;
 
-  auto node2 = trie::get_node(trie::add_node());
+  auto& node2 = trie::get_root();
 
   while (ifstream >> word >> freq)
   {
-    node2->insert_word(word, std::stoi(freq));
+    node2.insert_word(word, std::stoi(freq));
   }
 
   trie::serialize_nodes(argv[2]);

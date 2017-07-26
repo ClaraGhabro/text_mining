@@ -29,7 +29,7 @@ void Node::insert_word(const std::string& word, int frequence, unsigned index)
       set_frequence(frequence, searched_char);
       return;
     }
-    get_node(new_index)->insert_word(word, frequence, index + 1);
+    get_node(new_index).insert_word(word, frequence, index + 1);
   }
   else
   {
@@ -38,7 +38,7 @@ void Node::insert_word(const std::string& word, int frequence, unsigned index)
       set_frequence(frequence, searched_char);
       return;
     }
-    get_node(elt->son_idx)->insert_word(word, frequence, index + 1);
+    get_node(elt->son_idx).insert_word(word, frequence, index + 1);
   }
 }
 
@@ -58,14 +58,14 @@ bool Node::search_word(const std::string& word, std::size_t index)
   if (index == word.size())
     return true;
 
-  return get_node(elt->son_idx)->search_word(word, index + 1);
+  return get_node(elt->son_idx).search_word(word, index + 1);
 }
 
 void Node::dump(const std::string& str)
 {
   for (std::size_t i = 0; i < children.size(); ++i)
   {
-    get_node(children[i].son_idx)->dump(str + children[i].letter);
+    get_node(children[i].son_idx).dump(str + children[i].letter);
   }
 
   for (std::size_t i = 0; i < children.size(); ++i)
@@ -77,15 +77,8 @@ void Node::write_node(std::ofstream& out_stream) const
 {
   std::uint8_t temp = static_cast<std::uint8_t>(children.size());
   out_stream.write(reinterpret_cast<const char*>(&temp), sizeof (temp));
-  // std::cerr << "Size element  : " << sizeof(children) << std::endl;
-  // std::cerr << "Size element  : " << sizeof (children[0]) << std::endl;
   for (const auto& elt : children)
-  {
     out_stream.write(reinterpret_cast<const char*>(&elt), sizeof (elt));
-    // out_stream.write(reinterpret_cast<const char*>(elt.letter), 8);
-    // out_stream.write(reinterpret_cast<const char*>(elt.word_frequence), 24);
-    // out_stream.write(reinterpret_cast<const char*>(elt.son_idx), 32);
-  }
 }
 
 void Node::set_frequence(unsigned int freq, const char letter)
@@ -111,16 +104,6 @@ void Node::add_children(char letter, std::uint32_t index, std::uint32_t freq)
   if (children.capacity() > children.size() + 2)
     children.shrink_to_fit();
 }
-
-// std::size_t Node::size_node(std::size_t size)
-// {
-// for (std::size_t i = 0; i < children.size(); ++i)
-// {
-// return get_node(children[i].second)->size_node(size + sizeof(this));
-// }
-//
-//
-// }
 
 void Node::sort_node()
 {
