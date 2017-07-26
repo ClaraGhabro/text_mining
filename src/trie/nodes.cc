@@ -18,26 +18,21 @@ auto& nodes_get()
 
 std::size_t add_node()
 {
+  static constexpr auto mem_size_max = 10000000;
+
   auto& nodes = nodes_get();
-  nodes.emplace_back(Node{});
   if (nodes.empty())
-    nodes.reserve(8000000);
+    nodes.reserve(mem_size_max + 1);
+  assert(nodes.size() < mem_size_max);
+  nodes.emplace_back(Node{});
 
   return nodes.size();
-}
-
-Node& get_root()
-{
-  static Node root{};
-  return root;
 }
 
 Node& get_node(std::size_t index)
 {
   auto& nodes = nodes_get();
   assert(index <= nodes.size());
-  if (index == 1)
-    return get_root();
   return nodes.at(index - 1);
 }
 
@@ -47,8 +42,8 @@ void serialize_nodes(const char* file)
   std::cerr << nodes.size() << '\n';
   std::ofstream out;
   out.open(file, std::ios::binary);
-  out.write(reinterpret_cast<char*>(nodes.size()), sizeof (nodes.size()));
-  get_root().write_node(out);
+  auto size = nodes.size();
+  out.write(reinterpret_cast<char*>(&size), sizeof (nodes.size()));
   for (const auto& node_ptr : nodes)
     node_ptr.write_node(out);
   out.close();

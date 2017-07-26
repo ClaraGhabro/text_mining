@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
   std::string word;
   std::string freq;
 
-  auto& node2 = trie::get_root();
+  auto& node2 = trie::get_node(trie::add_node());
 
   while (ifstream >> word >> freq)
   {
