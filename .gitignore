@@ -38,7 +38,7 @@ TextMiningApp
 Dockerfile
 .clang-format
 test.sh
-words.txt
+*.txt
 out/
 build/
 massif.*

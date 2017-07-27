@@ -1,7 +1,13 @@
-- build system: ok
-  -> à completer : generer les deux fichiers de configuration
-
-parsing d'option: voir comment faire proprement dans le cas ou il y a 2 options passées en argument (pour le moment, ca segfault)
-
-
 massif memory profiler -> pour controler les 512M de RAM
+lancer :
+valgrind --tool=massif ./Textblbabla
+
+
+distance
+soit le mot est exact,
+soit le mot est plus long d'au plus dist
+soit il est plus court d'au plus dist
+soit il y a une lettre fuasse
+soit il y a un swap
+
+
