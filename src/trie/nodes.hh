@@ -12,15 +12,6 @@ namespace trie
 std::size_t add_node();
 
 /**
- * \fn get_root
- *
- * \brief Return the address of a node out of the vector, but pointing to its
- * head
- *
- */
-Node& get_root();
-
-/**
  * \fn get_node
  *
  * \brief Return a node using a given index.

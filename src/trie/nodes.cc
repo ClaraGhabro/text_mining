@@ -30,7 +30,7 @@ auto& nodes_get()
 
 std::size_t add_node()
 {
-  static constexpr auto mem_size_max = 10000000;
+  static constexpr auto mem_size_max = 9000000;
 
   auto& nodes = nodes_get();
   if (nodes.empty())
@@ -54,8 +54,8 @@ void serialize_nodes(const char* file)
   std::cerr << nodes.size() << '\n';
   std::ofstream out;
   out.open(file, std::ios::binary);
-  auto size = nodes.size();
-  out.write(reinterpret_cast<char*>(&size), sizeof (nodes.size()));
+  // auto size = nodes.size();
+  // out.write(reinterpret_cast<char*>(&size), sizeof (nodes.size()));
   for (const auto& node_ptr : nodes)
     node_ptr.write_node(out);
   out.close();
@@ -67,7 +67,7 @@ Node& deserialize_nodes(const char* file)
   in_stream.open(file, std::ios::binary);
 
   std::uint8_t children_size = 0;
-  trie::Node::element elt ;
+  trie::Node::element elt;
 
   while (in_stream)
   {
@@ -80,7 +80,7 @@ Node& deserialize_nodes(const char* file)
     for (std::size_t i = 0; i < children_size; ++i)
     {
       in_stream.read(reinterpret_cast<char*>(&elt), sizeof (elt));
-      // std::cerr << "letter: " << letter<< std::endl;
+      // std::cerr << "letter: " << elt.letter<< std::endl;
       current_node.add_children(elt);
     }
   }

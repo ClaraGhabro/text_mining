@@ -13,8 +13,7 @@ void Node::insert_word(const std::string& word, int frequence, unsigned index)
 
   char searched_char = word[index];
 
-  const auto elt = std::find_if(children.begin(),
-                                children.end(),
+  const auto elt = std::find_if(children.begin(), children.end(),
                                 [searched_char](const auto& elt) {
                                   return elt.letter == searched_char;
                                 });
@@ -42,29 +41,36 @@ void Node::insert_word(const std::string& word, int frequence, unsigned index)
   }
 }
 
-bool Node::search_word(const std::string& word, std::size_t index)
+uint32_t Node::search_word(const std::string& word, std::size_t index)
 {
   char searched_char = word[index];
 
-  const auto& elt = std::find_if(children.begin(),
-                                 children.end(),
+  const auto& elt = std::find_if(children.begin(), children.end(),
                                  [searched_char](const auto& elt) {
                                    return elt.letter == searched_char;
                                  });
 
   if (elt == children.end())
-    return false;
+  {
+    std::cerr << "missing letter: " << word[index] << std::endl;
+    return 0;
+  }
 
   if (index == word.size())
-    return true;
+  {
+    std::cerr << "last letter: " << elt->letter << std::endl;
+    return elt->word_frequence;
+  }
 
   return get_node(elt->son_idx).search_word(word, index + 1);
 }
 
 void Node::dump(const std::string& str)
 {
+  std::cerr << "children size: " << children.size() << '\n';
   for (std::size_t i = 0; i < children.size(); ++i)
   {
+    std::cerr << "current child index: " << i << '\n';
     get_node(children[i].son_idx).dump(str + children[i].letter);
   }
 

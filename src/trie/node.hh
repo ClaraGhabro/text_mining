@@ -53,7 +53,7 @@ public:
    * \param word the word to search
    * \param index which letter of the word is being searched
    */
-  bool search_word(const std::string& word, std::size_t index = 0);
+  uint32_t search_word(const std::string& word, std::size_t index = 0);
 
   /**
    * \brief Display all words in the trie.
