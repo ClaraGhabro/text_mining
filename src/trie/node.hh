@@ -114,6 +114,8 @@ private:
    */
   void sort_node();
 
+  bool is_shorter_or_longer(std::size_t size_word, std::size_t index, int dist);
+
   std::vector<element> children{}; /*!< Vector containing the children of the current node*/
 };
 } // namespace trie

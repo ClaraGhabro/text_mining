@@ -44,10 +44,10 @@ int main(int argc, char* argv[])
       auto res = node3.find_word(word, std::stoi(diff));
       for (std::size_t i = 0; i < res.size(); ++i)
       {
-        if (res[i].second != 0)
-          result += "{\"word\":\"" + res[i].first
-                  + "\",\"freq\":" + std::to_string(res[i].second)
-                  + ",\"distance\":" + diff + "}";
+        if (std::get<1>(res[i]) != 0)
+          result += "{\"word\":\"" + std::get<0>(res[i])
+                  + "\",\"freq\":" + std::to_string(std::get<1>(res[i])
+                  + ",\"distance\":" + diff - std::stoi(std::get<2>(res[i])) + "}";
       }
     }
 

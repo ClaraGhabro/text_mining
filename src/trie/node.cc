@@ -59,6 +59,12 @@ uint32_t Node::search_word(const std::string& word, std::size_t index)
   return get_node(elt->son_idx).search_word(word, index + 1);
 }
 
+bool Node::is_shorter_or_longer(std::size_t size_word, std::size_t index, int dist)
+{
+  return (index >= size_word - dist && index <= size_word + dist);
+}
+
+
 
 std::vector<std::tuple<std::string, uint32_t, int>>
 Node::find_word(const std::string& word, int dist, const std::string& finded_word,
@@ -68,22 +74,31 @@ Node::find_word(const std::string& word, int dist, const std::string& finded_wor
   static std::size_t current_deep = 0;
   char searched_char = word[index];
 
-  const auto& elt = std::find_if(children.begin(), children.end(),
-                                 [searched_char](const auto& elt) {
-                                   return elt.letter == searched_char;
-                                 });
+  // const auto& elt = std::find_if(children.begin(), children.end(),
+                                 // [searched_char](const auto& elt) {
+                                   // return elt.letter == searched_char;
+                                 // });
 
   if (current_deep++ == word.size() - 1 + dist)
     return words_vec;
   // a good word
 
-  for (std::size_t i = 0; i < children.size(); ++i)
+  for (std::size_t i = 0; i < children.size() + dist; ++i)
   {
+    if (is_shorter_or_longer(word.size(), finded_word.size() + 1, dist)
+        && children[i].word_frequence)
+      // the finded word is shorter or longer than the given one
+    {
+      words_vec.emplace_back(std::make_tuple(finded_word + children[i].letter,
+                         static_cast<std::uint32_t>(children[i].word_frequence),
+                         dist));
+    }
+
+
+
     if (children[i].letter == searched_char)
     {
       // the finded letter is the good one
-      if ((index == word.size() - 1 || index - 1 + dist ==  word.size()) && elt->word_frequence)
-        words_vec.emplace_back(std::make_tuple(finded_word +children[i].letter , static_cast<std::uint32_t>(children[i].word_frequence), dist));
       return get_node(children[i].son_idx).find_word(word, dist,
                                               finded_word + children[i].letter,
                                               index + 1);
@@ -92,16 +107,12 @@ Node::find_word(const std::string& word, int dist, const std::string& finded_wor
         && finded_word[index - 1] == searched_char)
     {
       // the finded letter and the previous are a swap of the original word
-      if (index == word.size() - 1 && elt->word_frequence)
-        words_vec.emplace_back(std::make_tuple(finded_word, static_cast<std::uint32_t>(elt->word_frequence), dist));
       return get_node(children[i].son_idx).find_word(word, dist,
                                               finded_word + children[i].letter,
                                               index + 1);
     }
     else
     {
-      if (index == word.size() - 1 && elt->word_frequence)
-        words_vec.emplace_back(std::make_pair(finded_word, static_cast<std::uint32_t>(elt->word_frequence)));
       return get_node(children[i].son_idx).find_word(word, dist - 1,
                                               finded_word + children[i].letter,
                                               index + 1);
