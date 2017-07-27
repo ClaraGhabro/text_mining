@@ -72,10 +72,10 @@ Node& deserialize_nodes(const char* file)
   while (in_stream)
   {
     std::size_t node_index = add_node();
+    auto& current_node = get_node(node_index);
+
     in_stream.read(reinterpret_cast<char*>(&children_size), sizeof (std::uint8_t));
     // std::cerr << "chilldren_size: " << static_cast<int>(children_size) << std::endl;
-
-    auto& current_node = get_node(node_index);
 
     for (std::size_t i = 0; i < children_size; ++i)
     {

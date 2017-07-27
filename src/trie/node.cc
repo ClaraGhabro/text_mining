@@ -56,7 +56,7 @@ uint32_t Node::search_word(const std::string& word, std::size_t index)
     return 0;
   }
 
-  if (index == word.size())
+  if (index == word.size() - 1)
   {
     std::cerr << "last letter: " << elt->letter << std::endl;
     return elt->word_frequence;
@@ -67,10 +67,10 @@ uint32_t Node::search_word(const std::string& word, std::size_t index)
 
 void Node::dump(const std::string& str)
 {
-  std::cerr << "children size: " << children.size() << '\n';
+  // std::cerr << "children size: " << children.size() << '\n';
   for (std::size_t i = 0; i < children.size(); ++i)
   {
-    std::cerr << "current child index: " << i << '\n';
+    // std::cerr << "current child index: " << i << '\n';
     get_node(children[i].son_idx).dump(str + children[i].letter);
   }
 
