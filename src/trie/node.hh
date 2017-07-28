@@ -108,6 +108,8 @@ public:
    */
   void add_children(struct element elt);
 
+  std::vector<element>& getChildren();
+
 private:
   /**
    * \brief Sort the child in aphabetic order

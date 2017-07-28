@@ -178,4 +178,9 @@ void Node::sort_node()
               return elt1.letter < elt2.letter;
             });
 }
+
+std::vector<Node::element>& Node::getChildren(){
+  return children;
+}
+
 }
