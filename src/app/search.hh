@@ -6,7 +6,13 @@
 
 namespace trie
 {
-  void searchRecursive(Node node, char letter, std::string word, std::vector<int> previousRow,
-                        std::vector<std::string> results, int maxCost);
-  std::vector<std::string>& search(Node &node, std::string word, int maxCost);
+  void searchRecursive(Node& node,
+                       char letter,
+                       const std::string& word,
+                       std::vector<int>& previousRow,
+                       std::vector<std::pair<std::string, int>> &results,
+                       int maxCost,
+                       const std::string& curWord);
+
+  std::vector<std::string>& search(Node &node, const std::string& word, int maxCost);
 }
