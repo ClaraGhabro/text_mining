@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     //if (std::stoi(diff) == 0)
     //  node3.search_word(word);
 
-    auto *results = trie::search(node3, word, std::stoi(diff));
+    auto results = trie::search(node3, word, std::stoi(diff));
     if (! results->empty())
       for (size_t i = 0; i < results->size(); i++)
         std::cout << "["
@@ -44,6 +44,8 @@ int main(int argc, char* argv[])
           << ": "
           << results->at(i).second
           << "]" << std::endl;
+    else
+      std::cerr << "resultat vide" << std::endl;
 
     //[{"word":"dimension","freq":6912651,"distance":0}, ... ]
     /*std::uint32_t freq = node3.search_word(word);

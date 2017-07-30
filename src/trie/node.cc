@@ -153,7 +153,7 @@ void Node::set_frequence(unsigned int freq, char letter)
     }
 }
 
-void Node::add_children(const struct element& elt)
+void Node::add_children(const element& elt)
 {
   children.emplace_back(elt);
   if (children.capacity() > children.size() + 2)
@@ -176,7 +176,7 @@ void Node::sort_node()
             });
 }
 
-const std::vector<Node::element>& Node::get_children()
+const std::vector<Node::element>& Node::get_children() const
 {
   return children;
 }
