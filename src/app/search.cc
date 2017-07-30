@@ -35,7 +35,8 @@ void sort_vect(std::vector<int>& vect)
       if (word[i - 1] != letter)
         replaceCost += 1;
 
-      currentRow.push_back(std::min(insertCost, std::min(deleteCost, replaceCost)));
+      currentRow.push_back(std::min(insertCost,
+						std::min(deleteCost, replaceCost)));
     }
 
     if (currentRow.back() <= maxCost)
@@ -47,14 +48,21 @@ void sort_vect(std::vector<int>& vect)
       auto& children = node.getChildren();
       for (unsigned j = 0; j < children.size(); j++)
       {
-        searchRecursive(get_node(children[j].son_idx), children[j].letter, word,
-                                  currentRow, results, maxCost, curWord + children[j].letter);
+        searchRecursive(get_node(children[j].son_idx),
+						children[j].letter,
+						word, 
+						currentRow,
+						results,
+						maxCost,
+						curWord + children[j].letter);
       }
     }
 
   }
 
-  std::vector<std::string>& search(Node &node, const std::string& word, int maxCost){
+  std::vector<std::string>& search(Node &node,
+			const std::string& word,
+			int maxCost){
     std::vector<int> currentRow{};
     for (unsigned i = 0; i < word.size() + 1; i++)
       currentRow[i] = i;
