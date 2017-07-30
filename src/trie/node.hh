@@ -88,7 +88,7 @@ public:
    * \param freq the word frequency
    * \param letter the last letter of the word
    */
-  void set_frequence(unsigned int freq, const char letter);
+  void set_frequence(unsigned int freq, char letter);
 
   /**
    * \brief Add a children to the current node using its letter, its index in
@@ -106,12 +106,14 @@ public:
    * \param elt structure containing the letter, the index and the frequency of
    * the word to insert
    */
-  void add_children(struct element elt);
+  void add_children(const struct element& elt);
 
   /**
    * \brief Return the vector of children
    */
-  std::vector<element>& get_children();
+  const std::vector<element>& get_children();
+  
+  const std::string& get_word(const std::string& str = "");
 
 private:
   /**

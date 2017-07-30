@@ -6,15 +6,15 @@
 
 namespace trie
 {
-void searchRecursive(Node& node,
+void search_ecursive(Node& node,
                      char letter,
                      const std::string& word,
-                     std::vector<int>& previousRow,
+                     std::vector<int>& previous_row,
                      std::vector<std::pair<std::string, int>> *results,
-                     int maxCost,
-                     const std::string& curWord);
+                     int max_cost,
+                     const std::string& cur_word);
 
 std::vector<std::pair<std::string, int>>* search(Node& node,
                                                  const std::string& word,
-                                                 int maxCost);
+                                                 int max_cost);
 }

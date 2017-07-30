@@ -143,7 +143,7 @@ void Node::write_node(std::ofstream& out_stream) const
     out_stream.write(reinterpret_cast<const char*>(&elt), sizeof (elt));
 }
 
-void Node::set_frequence(unsigned int freq, const char letter)
+void Node::set_frequence(unsigned int freq, char letter)
 {
   for (std::size_t i = 0; i < children.size(); ++i)
     if (children[i].letter == letter)
@@ -153,7 +153,7 @@ void Node::set_frequence(unsigned int freq, const char letter)
     }
 }
 
-void Node::add_children(struct element elt)
+void Node::add_children(const struct element& elt)
 {
   children.emplace_back(elt);
   if (children.capacity() > children.size() + 2)
@@ -176,8 +176,22 @@ void Node::sort_node()
             });
 }
 
-std::vector<Node::element>& Node::get_children(){
+const std::vector<Node::element>& Node::get_children(){
   return children;
 }
+
+const std::string& Node::get_word(const std::string& str)
+{
+
+  // std::cerr << "children size: " << children.size() << '\n';
+  for (std::size_t i = 0; i < children.size(); ++i)
+  {
+    // std::cerr << "current child index: " << i << '\n';
+    return get_node(children[i].son_idx).get_word(str + children[i].letter);
+  }
+
+  for (std::size_t i = 0; i < children.size(); ++i)
+    if (children[i].word_frequence)
+      return str;
 
 }

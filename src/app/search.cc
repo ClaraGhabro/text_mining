@@ -14,7 +14,7 @@ void sort_vect(std::vector<int>& vect)
             });
 }
 
-void searchRecursive(Node& node,
+void search_recursive(Node& node,
                      char letter,
                      const std::string& word,
                      std::vector<int>& previousRow,
@@ -32,7 +32,8 @@ void searchRecursive(Node& node,
     int deleteCost = previousRow[i] + 1;
     int replaceCost = previousRow[i - 1];
 
-    if (word[i - 1] != letter)
+    if (word[i] != letter)
+    //if (word[i - 1] != letter)
       replaceCost += 1;
 
     currentRow.push_back(std::min(insertCost,
@@ -79,7 +80,7 @@ std::vector<std::pair<std::string, int>>* search(Node &node,
   for (unsigned j = 0; j < children.size(); j++)
   {
     std::string curWord = std::string(1, children[j].letter);
-    searchRecursive(get_node(children[j].son_idx),
+    search_recursive(get_node(children[j].son_idx),
                     children[j].letter,
                     word,
                     currentRow,
