@@ -108,7 +108,10 @@ public:
    */
   void add_children(struct element elt);
 
-  std::vector<element>& getChildren();
+  /**
+   * \brief Return the vector of children
+   */
+  std::vector<element>& get_children();
 
 private:
   /**
