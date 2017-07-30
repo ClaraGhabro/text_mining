@@ -52,7 +52,7 @@ void search_recursive(Node& node,
     auto& children = node.get_children();
     for (unsigned j = 0; j < children.size(); j++)
     {
-      searchRecursive(get_node(children[j].son_idx),
+      search_recursive(get_node(children[j].son_idx),
                       children[j].letter,
                       word,
                       currentRow,

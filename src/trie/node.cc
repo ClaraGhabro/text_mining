@@ -176,7 +176,8 @@ void Node::sort_node()
             });
 }
 
-const std::vector<Node::element>& Node::get_children(){
+const std::vector<Node::element>& Node::get_children()
+{
   return children;
 }
 
@@ -193,5 +194,8 @@ const std::string& Node::get_word(const std::string& str)
   for (std::size_t i = 0; i < children.size(); ++i)
     if (children[i].word_frequence)
       return str;
+
+  return str;
+}
 
 }
