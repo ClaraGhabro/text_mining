@@ -90,16 +90,14 @@ void search_on_word(const Node& node,
     if (child.word_frequence != 0)
     {
       // std::cerr << "current word: " << acc_word + child.letter << '\n';
-      auto& root_node = get_node(1);
-      auto freq_return = root_node.search_word(acc_word + child.letter);
-      if (freq_return)
-      {
+     // auto& root_node = get_node(1);
+     // std::uint32_t freq_return = root_node.search_word(acc_word + child.letter);
+     // if (freq_return)
         // std::cerr << "frequence of current word: " << acc_word + child.letter
                   // << " " << child.word_frequence << '\n';
         // std::cerr << "return frequence du search: " << freq_return << '\n';
-          levenshtein_dist(word, acc_word + child.letter, results, max_cost,
-                           freq_return);
-      }
+        levenshtein_dist(word, acc_word + child.letter, results, max_cost,
+                         child.word_frequence);
     }
 
     search_on_word(node, word, results, max_cost, acc_word + child.letter);

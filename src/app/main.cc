@@ -36,6 +36,7 @@ int main(int argc, char* argv[])
               << ", word: " << word << std::endl;
 
     // node3.dump();
+    // std::cerr << node3.search_word("test") << '\n';
     auto results = trie::search(node3, word, std::stoi(diff));
     if (! results->empty())
     {

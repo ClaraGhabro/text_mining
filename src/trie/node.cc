@@ -155,7 +155,7 @@ void Node::add_children(const element& elt)
 
 void Node::add_children(char letter, std::uint32_t index, std::uint32_t freq)
 {
-  children.emplace_back(element{ letter, freq, index });
+  children.emplace_back(element{ letter, index, freq });
   if (children.capacity() > children.size() + 2)
     children.shrink_to_fit();
 }

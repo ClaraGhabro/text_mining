@@ -43,6 +43,7 @@ int main(int argc, char* argv[]) {
 
   trie::serialize_nodes(argv[2]);
   std::cerr << "word: " << word << ", freq: " << freq << '\n';
+  std::cerr << "word: test, freq: " << node2.search_word("test") << '\n';
   // node2.dump("");
 
   return 0;

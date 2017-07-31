@@ -33,8 +33,8 @@ public:
   struct element
   {
     char letter : 8;
-    std::uint32_t word_frequence : 24;
-    std::uint32_t son_idx : 32;
+    std::uint32_t son_idx : 24;
+    std::uint32_t word_frequence : 32;
   };
 
   /**
