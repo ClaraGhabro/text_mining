@@ -56,17 +56,6 @@ public:
   uint32_t search_word(const std::string& word, std::size_t index = 0);
 
   /**
-   * \brief Search if a word is in the trie, with a distance of 2.
-   *
-   * \param word the word to search
-   * \param dist the distance that can still occure
-   * \param index which letter of the word is being searched
-   */
-  std::vector<std::tuple<std::string, uint32_t, int>>
-  find_word(const std::string& word, int dist, const std::string& finded_word = "",
-            std::size_t index = 0);
-
-  /**
    * \brief Display all words in the trie.
    *
    * \param str is empty at the first call, accumulate the letters of the word
@@ -119,8 +108,6 @@ private:
    * \brief Sort the child in aphabetic order
    */
   void sort_node();
-
-  bool is_shorter_or_longer(std::size_t size_word, std::size_t index, int dist);
 
   std::vector<element> children{}; /*!< Vector containing the children of the current node*/
 };

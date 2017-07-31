@@ -34,8 +34,6 @@ void levenshtein_dist(const std::string& word,
       const int delete_cost = prev_row.at(col) + 1;
       int replace_cost = 0;
 
-      // std::cerr << "current word letter:      " << word[col - 1] << '\n';
-      // std::cerr << "current dico word letter: " << dico_word[row - 1] << '\n';
       bool diff_letters = word[col - 1] != dico_word[row - 1];
       bool inversed_letters = (word[col - 1] == dico_word[row]
                               && word[col] == dico_word[row - 1]
@@ -48,8 +46,6 @@ void levenshtein_dist(const std::string& word,
 
       current_row.emplace_back(
           std::min(insert_cost, std::min(delete_cost, replace_cost)));
-      // if (current_row.back() > max_cost)
-        // return;
     }
   }
 
@@ -72,18 +68,10 @@ void search_on_word(const Node& node,
   {
     if (child.word_frequence != 0)
     {
-      // std::cerr << "current word: " << acc_word + child.letter << '\n';
-     // auto& root_node = get_node(1);
-     // std::uint32_t freq_return = root_node.search_word(acc_word + child.letter);
-     // if (freq_return)
-        // std::cerr << "frequence of current word: " << acc_word + child.letter
-                  // << " " << child.word_frequence << '\n';
-        // std::cerr << "return frequence du search: " << freq_return << '\n';
       levenshtein_dist(word, acc_word + child.letter, results, max_cost,
                        child.word_frequence);
-                       //freq_return);
-     if (results->size() == 1 && max_cost == 0)
-       return;
+      if (results->size() == 1 && max_cost == 0)
+        return;
     }
 
     // search_on_word(node, word, results, max_cost, acc_word + child.letter);
@@ -97,7 +85,6 @@ std::unique_ptr<std::vector<std::tuple<std::string, std::uint32_t, int>>>
 search(const Node &node, const std::string& word, int max_cost)
 {
   auto results = std::make_unique<std::vector<std::tuple<std::string, std::uint32_t, int >>>();
-  
   
   search_on_word(node, word, results.get(), max_cost);
   

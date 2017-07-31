@@ -23,6 +23,7 @@ Les noeuds du trie sont representés par la classe trie::Node. Cette classe ne c
  2.	Listez l’ensemble des tests effectués sur votre programme (en plus des units tests)
 
  3.	Avez-vous détecté des cas où la correction par distance ne fonctionnait pas (même avec une distance élevée) ?
+Aucun rapport, mais il a été surprenant (et pourtant un peu évident) que deux lettres identiques a la suite soient considérée comme un echange de lettre, augmantant ainsi la distance de 1 ...
 
  4.	Quelle est la structure de données que vous avez implémentée dans votre projet, pourquoi ?
 Utilisation d'un trie.

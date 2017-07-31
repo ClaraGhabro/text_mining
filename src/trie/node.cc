@@ -58,61 +58,6 @@ uint32_t Node::search_word(const std::string& word, std::size_t index)
   return get_node(elt->son_idx).search_word(word, index + 1);
 }
 
-bool Node::is_shorter_or_longer(std::size_t size_word, std::size_t index, int dist)
-{
-  return (index >= size_word - dist && index <= size_word + dist);
-}
-
-std::vector<std::tuple<std::string, uint32_t, int>>
-Node::find_word(const std::string& word, int dist, const std::string& finded_word,
-                std::size_t index)
-{
-  static std::vector<std::tuple<std::string, std::uint32_t, int>> words_vec{};
-  static std::size_t current_deep = 0;
-  char searched_char = word[index];
-
-  if (current_deep++ == word.size() - 1 + dist)
-    return words_vec;
-  // a good word
-
-  for (std::size_t i = 0; i < children.size() + dist; ++i)
-  {
-    if (is_shorter_or_longer(word.size(), finded_word.size() + 1, dist)
-        && children[i].word_frequence)
-      // the finded word is shorter or longer than the given one
-    {
-      words_vec.emplace_back(std::make_tuple(
-                        finded_word + children[i].letter,
-                        static_cast<std::uint32_t>(children[i].word_frequence),
-                        dist));
-    }
-
-    if (children[i].letter == searched_char)
-    {
-      // the finded letter is the good one
-      return get_node(children[i].son_idx).find_word(word, dist,
-                                                     finded_word + children[i].letter,
-                                                     index + 1);
-    }
-    if (children[i].letter == word[index - 1]
-        && finded_word[index - 1] == searched_char)
-    {
-      // the finded letter and the previous are a swap of the original word
-      return get_node(children[i].son_idx).find_word(word, dist,
-                                                     finded_word + children[i].letter,
-                                                     index + 1);
-    }
-    else
-    {
-      return get_node(children[i].son_idx).find_word(word, dist - 1,
-                                                     finded_word + children[i].letter,
-                                                     index + 1);
-    }
-
-  }
-
-  return words_vec;
-}
 
 void Node::dump(const std::string& str)
 {
