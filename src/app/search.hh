@@ -19,5 +19,5 @@ void search_on_word(const Node& node,
                     const std::string& acc__word = "");
 
 std::unique_ptr<std::vector<std::tuple<std::string, std::uint32_t, int>>>
-search(Node& node, const std::string& word, int max_cost);
+search(const Node& node, const std::string& word, int max_cost);
 }

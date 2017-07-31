@@ -2,19 +2,11 @@
 
 #include "trie/nodes.hh"
 #include <algorithm>
+#include <numeric>
 
 
-namespace trie {
-
-// namespace
-// {
-// void sort_vect(std::vector<int>& vect)
-// {
-  // std::sort(vect.begin(), vect.end(), [](const auto& elt1, const auto& elt2) {
-    // return elt1 < elt2;
-    // });
-// }
-// }
+namespace trie
+{
 
 void levenshtein_dist(const std::string& word,
                       const std::string& dico_word,
@@ -27,10 +19,8 @@ void levenshtein_dist(const std::string& word,
   const int nb_column = word.size() + 1;
   const int nb_row = dico_word.size() + 1;
 
-  std::vector<int> current_row{};
-  current_row.emplace_back(0);
-  for (auto i = 1; i < nb_column; ++i)
-    current_row.emplace_back(current_row.at(i - 1) + 1);
+  std::vector<int> current_row(nb_column);
+  std::iota(current_row.begin(), current_row.end(), 0);
 
   for (auto row = 1; row < nb_row; ++row)
   {
@@ -40,24 +30,21 @@ void levenshtein_dist(const std::string& word,
 
     for (auto col = 1; col < nb_column; ++col)
     {
-      int insert_cost = current_row.at(col - 1) + 1;
-      int delete_cost = prev_row.at(col) + 1;
+      const int insert_cost = current_row.at(col - 1) + 1;
+      const int delete_cost = prev_row.at(col) + 1;
       int replace_cost = 0;
 
       // std::cerr << "current word letter:      " << word[col - 1] << '\n';
       // std::cerr << "current dico word letter: " << dico_word[row - 1] << '\n';
-      if (word[col - 1] != dico_word[row - 1])
-      {
-        replace_cost = prev_row.at(col - 1) + 1;
-        // std::cerr << "replace cost if diff: " << replace_cost << '\n';
-      }
-      else if (word[col - 1] == dico_word[row] && word[col] == dico_word[row - 1])
+      bool diff_letters = word[col - 1] != dico_word[row - 1];
+      bool inversed_letters = (word[col - 1] == dico_word[row]
+                              && word[col] == dico_word[row - 1]
+                              && word[col] != word[col - 1]);
+
+      if (diff_letters || inversed_letters)
         replace_cost = prev_row.at(col - 1) + 1;
       else
-      {
         replace_cost = prev_row.at(col - 1);
-        // std::cerr << "replace cost if same: " << replace_cost << '\n';
-      }
 
       current_row.emplace_back(
           std::min(insert_cost, std::min(delete_cost, replace_cost)));
@@ -68,13 +55,9 @@ void levenshtein_dist(const std::string& word,
 
   if (current_row.back() <= max_cost)
   {
-    // std::cerr << "frequence of finded word: " << frequence << '\n';
     results->emplace_back(std::make_tuple(dico_word, frequence, current_row.back()));
   }
-
-
 }
-
 
 void search_on_word(const Node& node,
                     const std::string& word,
@@ -82,11 +65,11 @@ void search_on_word(const Node& node,
                     int max_cost,
                     const std::string& acc_word)
 {
+  if (word.size() + max_cost < acc_word.size())
+    return;
+
   for (const auto& child : node.get_children())
   {
-    if (word.size() + max_cost == acc_word.size())
-      return;
-
     if (child.word_frequence != 0)
     {
       // std::cerr << "current word: " << acc_word + child.letter << '\n';
@@ -96,18 +79,22 @@ void search_on_word(const Node& node,
         // std::cerr << "frequence of current word: " << acc_word + child.letter
                   // << " " << child.word_frequence << '\n';
         // std::cerr << "return frequence du search: " << freq_return << '\n';
-        levenshtein_dist(word, acc_word + child.letter, results, max_cost,
-                         child.word_frequence);
+      levenshtein_dist(word, acc_word + child.letter, results, max_cost,
+                       child.word_frequence);
+                       //freq_return);
+     if (results->size() == 1 && max_cost == 0)
+       return;
     }
 
-    search_on_word(node, word, results, max_cost, acc_word + child.letter);
+    // search_on_word(node, word, results, max_cost, acc_word + child.letter);
+    search_on_word(get_node(child.son_idx), word, results, max_cost, acc_word + child.letter);
   }
 
 
 }
 
 std::unique_ptr<std::vector<std::tuple<std::string, std::uint32_t, int>>>
-search(Node &node, const std::string& word, int max_cost)
+search(const Node &node, const std::string& word, int max_cost)
 {
   auto results = std::make_unique<std::vector<std::tuple<std::string, std::uint32_t, int >>>();
   

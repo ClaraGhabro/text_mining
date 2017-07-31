@@ -35,21 +35,20 @@ int main(int argc, char* argv[])
               << ", diff: " << diff
               << ", word: " << word << std::endl;
 
-    // node3.dump();
-    // std::cerr << node3.search_word("test") << '\n';
+    std::cerr << node3.search_word("bonne") << '\n';
     auto results = trie::search(node3, word, std::stoi(diff));
     if (! results->empty())
     {
-      // sort by ascending distance
-      std::sort(results->begin(), results->end(),
-            [](const auto& elt1, const auto& elt2) {
-            return std::get<2>(elt1) < std::get<2>(elt2);
-            });
-
       // sort by descending frequence
       std::sort(results->begin(), results->end(),
             [](const auto& elt1, const auto& elt2) {
             return std::get<1>(elt1) > std::get<1>(elt2);
+            });
+
+      // sort by ascending distance
+      std::sort(results->begin(), results->end(),
+            [](const auto& elt1, const auto& elt2) {
+            return std::get<2>(elt1) < std::get<2>(elt2);
             });
 
       std::cout << "[";
@@ -64,7 +63,7 @@ int main(int argc, char* argv[])
                 << std::endl;
     }
     else
-      std::cerr << "resultat vide" << std::endl;
+      std::cerr << "Pas de resultat" << std::endl;
 
   }
   return 0;
