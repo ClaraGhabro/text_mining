@@ -10,8 +10,21 @@
  */
 
 
+int strCmp(const std::string str1, const std::string str2)
+{
+  for (size_t i = 0; i < str1.size(); i++)
+  {
+    if (i == str2.size())
+      return -1;
+    if (str2[i] != str1[i])
+      return str1[i] > str2[i] ? -1 : 1;
+  }
+  return str1.size() < str2.size() ? 1 : 0;
+}
+
 int main(int argc, char* argv[])
 {
+
   if (argc != 2)
   {
     fprintf(stderr, "\nsTextMiningApp Error: Not enough argument, run with:\n");
@@ -42,14 +55,17 @@ int main(int argc, char* argv[])
       // sort by descending frequence
       std::sort(results->begin(), results->end(),
             [](const auto& elt1, const auto& elt2) {
-            return std::get<1>(elt1) > std::get<1>(elt2);
+            return std::get<2>(elt1) < std::get<2>(elt2) ||
+                  (std::get<2>(elt1) == std::get<2>(elt2) && std::get<1>(elt1) > std::get<1>(elt2)) ||
+                  (std::get<2>(elt1) == std::get<2>(elt2) && std::get<1>(elt1) == std::get<1>(elt2) &&
+                  strCmp(std::get<0>(elt1), std::get<0>(elt2)) == 1);
             });
 
       // sort by ascending distance
-      std::sort(results->begin(), results->end(),
-            [](const auto& elt1, const auto& elt2) {
-            return std::get<2>(elt1) < std::get<2>(elt2);
-            });
+      //std::sort(results->begin(), results->end(),
+      //      [](const auto& elt1, const auto& elt2) {
+      //      return std::get<2>(elt1) < std::get<2>(elt2);
+      //      });
 
       std::cout << "[";
       unsigned i = 0;
