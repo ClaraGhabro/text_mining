@@ -71,11 +71,6 @@ Node::find_word(const std::string& word, int dist, const std::string& finded_wor
   static std::size_t current_deep = 0;
   char searched_char = word[index];
 
-  // const auto& elt = std::find_if(children.begin(), children.end(),
-  // [searched_char](const auto& elt) {
-  // return elt.letter == searched_char;
-  // });
-
   if (current_deep++ == word.size() - 1 + dist)
     return words_vec;
   // a good word
@@ -86,12 +81,11 @@ Node::find_word(const std::string& word, int dist, const std::string& finded_wor
         && children[i].word_frequence)
       // the finded word is shorter or longer than the given one
     {
-      words_vec.emplace_back(std::make_tuple(finded_word + children[i].letter,
-                                             static_cast<std::uint32_t>(children[i].word_frequence),
-                                             dist));
+      words_vec.emplace_back(std::make_tuple(
+                        finded_word + children[i].letter,
+                        static_cast<std::uint32_t>(children[i].word_frequence),
+                        dist));
     }
-
-
 
     if (children[i].letter == searched_char)
     {
@@ -115,7 +109,6 @@ Node::find_word(const std::string& word, int dist, const std::string& finded_wor
                                                      index + 1);
     }
 
-
   }
 
   return words_vec;
@@ -132,7 +125,7 @@ void Node::dump(const std::string& str)
 
   for (std::size_t i = 0; i < children.size(); ++i)
     if (children[i].word_frequence)
-      std::cerr << str << '\n';
+      std::cerr << str << " " << children[i].word_frequence << '\n';
 }
 
 void Node::write_node(std::ofstream& out_stream) const
@@ -179,23 +172,6 @@ void Node::sort_node()
 const std::vector<Node::element>& Node::get_children() const
 {
   return children;
-}
-
-const std::string& Node::get_word(const std::string& str)
-{
-
-  // std::cerr << "children size: " << children.size() << '\n';
-  for (std::size_t i = 0; i < children.size(); ++i)
-  {
-    // std::cerr << "current child index: " << i << '\n';
-    return get_node(children[i].son_idx).get_word(str + children[i].letter);
-  }
-
-  for (std::size_t i = 0; i < children.size(); ++i)
-    if (children[i].word_frequence)
-      return str;
-
-  return str;
 }
 
 }

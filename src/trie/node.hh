@@ -113,7 +113,6 @@ public:
    */
   const std::vector<element>& get_children() const;
   
-  const std::string& get_word(const std::string& str = "");
 
 private:
   /**

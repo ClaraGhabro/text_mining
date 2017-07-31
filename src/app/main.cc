@@ -3,10 +3,12 @@
 #include <iostream>
 #include <string>
 #include "search.hh"
+#include <algorithm>
 
 /**
  * \brief TextMiningApp main
  */
+
 
 int main(int argc, char* argv[])
 {
@@ -33,48 +35,36 @@ int main(int argc, char* argv[])
               << ", diff: " << diff
               << ", word: " << word << std::endl;
 
-    //if (std::stoi(diff) == 0)
-    //  node3.search_word(word);
-
+    // node3.dump();
     auto results = trie::search(node3, word, std::stoi(diff));
     if (! results->empty())
-      for (size_t i = 0; i < results->size(); i++)
-        std::cout << "["
-          << results->at(i).first
-          << ": "
-          << results->at(i).second
-          << "]" << std::endl;
+    {
+      // sort by ascending distance
+      std::sort(results->begin(), results->end(),
+            [](const auto& elt1, const auto& elt2) {
+            return std::get<2>(elt1) < std::get<2>(elt2);
+            });
+
+      // sort by descending frequence
+      std::sort(results->begin(), results->end(),
+            [](const auto& elt1, const auto& elt2) {
+            return std::get<1>(elt1) > std::get<1>(elt2);
+            });
+
+      std::cout << "[";
+      unsigned i = 0;
+      for (; i < results->size() - 1; ++i)
+        std::cout << "{\"word\":\"" << std::get<0>(results->at(i))
+                  << "\",\"freq\":" << std::get<1>(results->at(i))
+                  << "\",distance\":" << std::get<2>(results->at(i)) << "},";
+      std::cout << "{\"word\":\"" << std::get<0>(results->at(i))
+                << "\",\"freq\":" << std::get<1>(results->at(i))
+                << "\",distance\":" << std::get<2>(results->at(i)) << "}]"
+                << std::endl;
+    }
     else
       std::cerr << "resultat vide" << std::endl;
 
-    //[{"word":"dimension","freq":6912651,"distance":0}, ... ]
-    /*std::uint32_t freq = node3.search_word(word);
-      if (freq != 0)
-      result += "{\"word\":\"" + word
-      + "\",\"freq\":" + std::to_string(freq)
-      + ",\"distance\":" + diff + "}";
-
-      else
-      {
-      auto res = node3.find_word(word, std::stoi(diff));
-      for (std::size_t i = 0; i < res.size(); ++i)
-      {
-      if (std::get<1>(res[i]) != 0)
-      result += "{\"word\":\"" + std::get<0>(res[i])
-      + "\",\"freq\":" + std::to_string(std::get<1>(res[i]))
-      + ",\"distance\":" + std::to_string(std::stoi(diff) - std::get<2>(res[i])) + "}";
-      }
-      }*/
-
-
-
   }
-
-  //if (!result.empty())
-  //  std::cout << "[" << result << "]" << std::endl;
-  // node3.dump();
-  std::cerr << sizeof (node3) << std::endl;
-  //std::cerr << node3.search_word(argv[2]) << std::endl;
-
   return 0;
 }

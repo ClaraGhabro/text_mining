@@ -18,8 +18,9 @@ namespace trie {
 
 void levenshtein_dist(const std::string& word,
                       const std::string& dico_word,
-                      std::vector<std::pair<std::string, int>>* results,
-                      int max_cost
+                      std::vector<std::tuple<std::string, std::uint32_t, int>>* results,
+                      int max_cost,
+                      std::uint32_t frequence
                      )
 {
 
@@ -50,7 +51,7 @@ void levenshtein_dist(const std::string& word,
         replace_cost = prev_row.at(col - 1) + 1;
         // std::cerr << "replace cost if diff: " << replace_cost << '\n';
       }
-      else if (word[col - 1] == dico_word[row - 2] && word[col - 2] == dico_word[row - 1])
+      else if (word[col - 1] == dico_word[row] && word[col] == dico_word[row - 1])
         replace_cost = prev_row.at(col - 1) + 1;
       else
       {
@@ -66,7 +67,10 @@ void levenshtein_dist(const std::string& word,
   }
 
   if (current_row.back() <= max_cost)
-    results->emplace_back(std::make_pair(dico_word, current_row.back()));
+  {
+    // std::cerr << "frequence of finded word: " << frequence << '\n';
+    results->emplace_back(std::make_tuple(dico_word, frequence, current_row.back()));
+  }
 
 
 }
@@ -74,7 +78,7 @@ void levenshtein_dist(const std::string& word,
 
 void search_on_word(const Node& node,
                     const std::string& word,
-                    std::vector<std::pair<std::string, int>>* results,
+                    std::vector<std::tuple<std::string, std::uint32_t, int>>* results,
                     int max_cost,
                     const std::string& acc_word)
 {
@@ -86,7 +90,16 @@ void search_on_word(const Node& node,
     if (child.word_frequence != 0)
     {
       // std::cerr << "current word: " << acc_word + child.letter << '\n';
-      levenshtein_dist(word, acc_word + child.letter, results, max_cost);
+      auto& root_node = get_node(1);
+      auto freq_return = root_node.search_word(acc_word + child.letter);
+      if (freq_return)
+      {
+        // std::cerr << "frequence of current word: " << acc_word + child.letter
+                  // << " " << child.word_frequence << '\n';
+        // std::cerr << "return frequence du search: " << freq_return << '\n';
+          levenshtein_dist(word, acc_word + child.letter, results, max_cost,
+                           freq_return);
+      }
     }
 
     search_on_word(node, word, results, max_cost, acc_word + child.letter);
@@ -95,10 +108,10 @@ void search_on_word(const Node& node,
 
 }
 
-std::unique_ptr<std::vector<std::pair<std::string, int>>>
+std::unique_ptr<std::vector<std::tuple<std::string, std::uint32_t, int>>>
 search(Node &node, const std::string& word, int max_cost)
 {
-  auto results = std::make_unique<std::vector<std::pair<std::string, int >>>();
+  auto results = std::make_unique<std::vector<std::tuple<std::string, std::uint32_t, int >>>();
   
   
   search_on_word(node, word, results.get(), max_cost);
