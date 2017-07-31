@@ -24,7 +24,6 @@ int strCmp(const std::string str1, const std::string str2)
 
 int main(int argc, char* argv[])
 {
-
   if (argc != 2)
   {
     fprintf(stderr, "\nsTextMiningApp Error: Not enough argument, run with:\n");
@@ -36,7 +35,6 @@ int main(int argc, char* argv[])
   std::string reading;
   std::string diff;
   std::string word;
-  //std::string result{};
 
   while (std::cin >> reading)
   {
@@ -55,9 +53,11 @@ int main(int argc, char* argv[])
       std::sort(results->begin(), results->end(),
             [](const auto& elt1, const auto& elt2) {
             return std::get<2>(elt1) < std::get<2>(elt2) ||
-                  (std::get<2>(elt1) == std::get<2>(elt2) && std::get<1>(elt1) > std::get<1>(elt2)) ||
-                  (std::get<2>(elt1) == std::get<2>(elt2) && std::get<1>(elt1) == std::get<1>(elt2) &&
-                  strCmp(std::get<0>(elt1), std::get<0>(elt2)) == 1);
+                  (std::get<2>(elt1) == std::get<2>(elt2)
+                   && std::get<1>(elt1) > std::get<1>(elt2))
+               || (std::get<2>(elt1) == std::get<2>(elt2)
+                   && std::get<1>(elt1) == std::get<1>(elt2)
+                   && strCmp(std::get<0>(elt1), std::get<0>(elt2)) == 1);
             });
 
       std::cout << "[";
