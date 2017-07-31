@@ -6,88 +6,103 @@
 
 namespace trie {
 
-namespace
-{
-void sort_vect(std::vector<int>& vect)
-{
-  std::sort(vect.begin(), vect.end(), [](const auto& elt1, const auto& elt2) {
-    return elt1 < elt2;
-    });
-}
-}
+// namespace
+// {
+// void sort_vect(std::vector<int>& vect)
+// {
+  // std::sort(vect.begin(), vect.end(), [](const auto& elt1, const auto& elt2) {
+    // return elt1 < elt2;
+    // });
+// }
+// }
 
-void search_recursive(const Node& node,
-                     char letter,
-                     const std::string& word,
-                     const std::vector<int>& previousRow,
-                     std::vector<std::pair<std::string, int>>* results,
-                     int maxCost,
-                     const std::string& curWord)
+void levenshtein_dist(const std::string& word,
+                      const std::string& dico_word,
+                      std::vector<std::pair<std::string, int>>* results,
+                      int max_cost
+                     )
 {
 
-  const int nbColumn = word.size();
-  std::vector<int> currentRow{};
-  currentRow.emplace_back(previousRow[0] + 1);
+  const int nb_column = word.size() + 1;
+  const int nb_row = dico_word.size() + 1;
 
-  for (int i = 1; i < nbColumn; i++)
+  std::vector<int> current_row{};
+  current_row.emplace_back(0);
+  for (auto i = 1; i < nb_column; ++i)
+    current_row.emplace_back(current_row.at(i - 1) + 1);
+
+  for (auto row = 1; row < nb_row; ++row)
   {
-    int insertCost = currentRow[i - 1] + 1;
-    int deleteCost = previousRow[i] + 1;
-    int replaceCost = previousRow[i - 1];
+    auto prev_row = current_row;
+    current_row.clear();
+    current_row.emplace_back(prev_row.at(0) + 1);
 
-    if (word[i - 1] != letter)
-      replaceCost += 1;
-
-    currentRow.emplace_back(
-            std::min(insertCost, std::min(deleteCost, replaceCost)));
-  }
-
-  if (currentRow.back() <= maxCost)
-  {
-    std::cerr << "add data in result" << std::endl;
-    results->push_back(std::make_pair(curWord, currentRow.back()));
-  }
-
-  sort_vect(currentRow);
-  if (currentRow[0] <= maxCost)
-  {
-    const auto& children = node.get_children();
-    for (const auto& child : children)
+    for (auto col = 1; col < nb_column; ++col)
     {
-      search_recursive(get_node(child.son_idx),
-                      child.letter,
-                      word,
-                      currentRow,
-                      results,
-                      maxCost,
-                      curWord + child.letter);
+      int insert_cost = current_row.at(col - 1) + 1;
+      int delete_cost = prev_row.at(col) + 1;
+      int replace_cost = 0;
+
+      // std::cerr << "current word letter:      " << word[col - 1] << '\n';
+      // std::cerr << "current dico word letter: " << dico_word[row - 1] << '\n';
+      if (word[col - 1] != dico_word[row - 1])
+      {
+        replace_cost = prev_row.at(col - 1) + 1;
+        // std::cerr << "replace cost if diff: " << replace_cost << '\n';
+      }
+      else if (word[col - 1] == dico_word[row - 2] && word[col - 2] == dico_word[row - 1])
+        replace_cost = prev_row.at(col - 1) + 1;
+      else
+      {
+        replace_cost = prev_row.at(col - 1);
+        // std::cerr << "replace cost if same: " << replace_cost << '\n';
+      }
+
+      current_row.emplace_back(
+          std::min(insert_cost, std::min(delete_cost, replace_cost)));
+      // if (current_row.back() > max_cost)
+        // return;
     }
   }
+
+  if (current_row.back() <= max_cost)
+    results->emplace_back(std::make_pair(dico_word, current_row.back()));
+
+
+}
+
+
+void search_on_word(const Node& node,
+                    const std::string& word,
+                    std::vector<std::pair<std::string, int>>* results,
+                    int max_cost,
+                    const std::string& acc_word)
+{
+  for (const auto& child : node.get_children())
+  {
+    if (word.size() + max_cost == acc_word.size())
+      return;
+
+    if (child.word_frequence != 0)
+    {
+      // std::cerr << "current word: " << acc_word + child.letter << '\n';
+      levenshtein_dist(word, acc_word + child.letter, results, max_cost);
+    }
+
+    search_on_word(node, word, results, max_cost, acc_word + child.letter);
+  }
+
 
 }
 
 std::unique_ptr<std::vector<std::pair<std::string, int>>>
-search(Node &node, const std::string& word, int maxCost)
+search(Node &node, const std::string& word, int max_cost)
 {
-
-  std::vector<int> currentRow(word.size());
-  for (unsigned i = 0; i < word.size() + 1; i++)
-    currentRow[i] = i;
-
   auto results = std::make_unique<std::vector<std::pair<std::string, int >>>();
-  const auto& children = node.get_children();
-
-  for (const auto& child: children)
-  {
-    std::string curWord = std::string(1, child.letter);
-    search_recursive(get_node(child.son_idx),
-                    child.letter,
-                    word,
-                    currentRow,
-                    results.get(),
-                    maxCost,
-                    curWord);
-  }
+  
+  
+  search_on_word(node, word, results.get(), max_cost);
+  
   return results;
 }
 
