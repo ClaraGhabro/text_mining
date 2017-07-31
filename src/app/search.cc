@@ -35,13 +35,25 @@ void levenshtein_dist(const std::string& word,
       int replace_cost = 0;
 
       bool diff_letters = word[col - 1] != dico_word[row - 1];
-      bool inversed_letters = (word[col - 1] == dico_word[row]
-                              && word[col] == dico_word[row - 1]
-                              && word[col] != word[col - 1]);
 
-      if (diff_letters || inversed_letters)
+      bool inversed_letters = (word[col - 1] == dico_word[row - 2]
+                            && word[col - 2] == dico_word[row - 1]
+                            && dico_word[row - 1] != word[col - 1])
+                            // || (word[col - 1] == dico_word[row]
+                             // // && word[col] == dico_word[row - 1]
+                             // // && dico_word[row - 1] != word[col - 1])
+                            ;
+
+// testametn 
+//        |
+// testament 
+//        |
+
+      if (inversed_letters)
+        replace_cost = prev_row.at(col - 1);
+      else if (diff_letters) //|| inversed_letters)
         replace_cost = prev_row.at(col - 1) + 1;
-      else
+      else if (!diff_letters)
         replace_cost = prev_row.at(col - 1);
 
       current_row.emplace_back(

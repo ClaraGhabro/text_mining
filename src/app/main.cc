@@ -48,11 +48,10 @@ int main(int argc, char* argv[])
               << ", diff: " << diff
               << ", word: " << word << std::endl;
 
-    std::cerr << node3.search_word("bonne") << '\n';
     auto results = trie::search(node3, word, std::stoi(diff));
     if (! results->empty())
     {
-      // sort by descending frequence
+      // sort by ascending distance, descending frequence and lexicographique
       std::sort(results->begin(), results->end(),
             [](const auto& elt1, const auto& elt2) {
             return std::get<2>(elt1) < std::get<2>(elt2) ||
@@ -61,21 +60,15 @@ int main(int argc, char* argv[])
                   strCmp(std::get<0>(elt1), std::get<0>(elt2)) == 1);
             });
 
-      // sort by ascending distance
-      //std::sort(results->begin(), results->end(),
-      //      [](const auto& elt1, const auto& elt2) {
-      //      return std::get<2>(elt1) < std::get<2>(elt2);
-      //      });
-
       std::cout << "[";
       unsigned i = 0;
       for (; i < results->size() - 1; ++i)
         std::cout << "{\"word\":\"" << std::get<0>(results->at(i))
                   << "\",\"freq\":" << std::get<1>(results->at(i))
-                  << "\",distance\":" << std::get<2>(results->at(i)) << "},";
+                  << ",\"distance\":" << std::get<2>(results->at(i)) << "},";
       std::cout << "{\"word\":\"" << std::get<0>(results->at(i))
                 << "\",\"freq\":" << std::get<1>(results->at(i))
-                << "\",distance\":" << std::get<2>(results->at(i)) << "}]"
+                << ",\"distance\":" << std::get<2>(results->at(i)) << "}]"
                 << std::endl;
     }
     else
